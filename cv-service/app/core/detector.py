@@ -24,11 +24,14 @@ _pose = None
 def _get_pose():
     global _pose
     if _pose is None:
-        _pose = mp_pose.Pose(
-            static_image_mode=True,
-            min_detection_confidence=settings.MIN_DETECTION_CONFIDENCE,
-            min_tracking_confidence=settings.MIN_TRACKING_CONFIDENCE,
-        )
+        try:
+            _pose = mp_pose.Pose(
+                static_image_mode=True,
+                min_detection_confidence=settings.MIN_DETECTION_CONFIDENCE,
+                min_tracking_confidence=settings.MIN_TRACKING_CONFIDENCE,
+            )
+        except Exception as e:
+            raise FileNotFoundError(f"Pose detection model unavailable: {e}")
     return _pose
 
 
